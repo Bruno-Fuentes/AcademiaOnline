@@ -21,7 +21,7 @@ header {
     margin: 0;
 }
 
-nav ul {
+nav ul{
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -32,7 +32,7 @@ nav ul li {
     margin: 0 10px;
 }
 
-nav ul li a {
+nav ul li a{
     color: #fff;
     text-decoration: none;
     padding: 8px 16px;
@@ -105,3 +105,12 @@ footer {
     padding-bottom: 75px;
 }
 
+h1 a {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+h1 a:hover {
+    color: white;        
+    text-decoration: none;  
+}
