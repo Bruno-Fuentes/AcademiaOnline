@@ -33,8 +33,14 @@ class TreinarView(View):
     def post(self, request):
         pass
 
-class interacaoView(View):
+class InteracaoView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'interacao.html')
+    def post(self, request):
+        pass
+
+class VolumeView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'volume.html')
     def post(self, request):
         pass

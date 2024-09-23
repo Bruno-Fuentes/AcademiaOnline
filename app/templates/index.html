@@ -5,22 +5,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Academia Online</title>
-    <link rel="stylesheet" href="../static/styles.css">
+    <style>
+        /* Estilos básicos e layout */
+body {
+    font-family: Arial, sans-serif;
+    margin: auto;
+    padding: 0;
+    background-color: #f4f4f4;
+    position: relative;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h1 {
+    margin: 0;
+}
+
+nav ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a{
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #555;
+}
+
+.btn-treinar {
+    background-color: #28a745;
+    border-radius: 5px;
+}
+
+.btn-treinar:hover {
+    background-color: #218838;
+}
+
+.banner {
+    background: url('banner.jpg') no-repeat center center/cover;
+    color: rgb(68, 68, 68);
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.banner h2 {
+    font-size: 3em;
+    margin: 0;
+}
+
+.section {
+    padding: 40px 20px;
+    background-color: #fff;
+    margin: 20px 0;
+    border-radius: 30px;
+    box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.7);
+    width: 300px;
+}
+
+.section > figure > img{
+    height: 200px;
+    width: 100%;
+    border-radius: 0px 0px 30px 30px;
+}
+
+figure{
+    margin: 0px -20px -45px -20px;
+    border-radius: 30px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    margin-top: 20px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 75px;
+}
+
+.social-links a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+#container{
+    display: flex;
+    justify-content: space-evenly;
+    padding-bottom: 75px;
+}
+
+h1 a {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+h1 a:hover {
+    color: white;        
+    text-decoration: none;  
+}
+    </style>
 </head>
 
 <body>
     <!-- Cabeçalho e Barra de Navegação -->
     <header>
         <div class="logo">
-            <h1><a href="index.html">Academia Online</a></h1>
+            <h1><a href="/" >Academia Online</a></h1>
         </div>
         <nav>
             <ul>
                 <li><a href="perfil.html">Perfil</a></li>
-                <li><a href="#treinos-prontos">Treinos Prontos</a></li>
-                <li><a href="#area-interacao">Área de Interação</a></li>
-                <li><a href="#volume-treino">Volume de Treino</a></li>
-                <li><a href="#treinar" class="btn-treinar">Treinar</a></li>
+                <li><a href="treinosprontos.html">Treinos Prontos</a></li>
+                <li><a href="interacao.html">Área de Interação</a></li>
+                <li><a href="volume.html">Volume de Treino</a></li>
+                <li><a href="treinar.html" class="btn-treinar">Treinar</a></li>
             </ul>
         </nav>
     </header>
@@ -34,41 +153,41 @@
     <div id="container">
         <!-- Seção Treinos Prontos -->
         <section id="treinos-prontos" class="section">
-            <h2>Treinos Prontos</h2>
+            <h2><a href="treinosprontos.html" style="color: black; text-decoration: none;">Treinos Prontos</a></h2>
             <p>Planos simples, adaptáveis e acessíveis onde você estiver.</p>
-            <figure><img src="https://img.freepik.com/fotos-gratis/homem-forte-treinando-na-academia_1303-23478.jpg" alt="Homem com halter" srcset=""></figure>
+            <figure><img src="https://img.freepik.com/fotos-gratis/homem-forte-treinando-na-academia_1303-23478.jpg" alt="Homem com halter"></figure>
             <!-- Filtros e Lista de Treinos podem ser adicionados aqui -->
         </section>
 
         <!-- Seção Perfil -->
         <section id="perfil" class="section">
-            <h2>Perfil</h2>
+            <h2><a href="perfil.html" style="color: black; text-decoration: none;">Perfil</a></h2>
             <p>Veja e edite suas informações pessoais e histórico de treinos.</p>
-            <figure><img src="https://img.freepik.com/fotos-gratis/uma-linda-garota-negra-esta-envolvida-em-um-ginasio_1157-23736.jpg" alt="Mulher treinando" srcset=""></figure>
+            <figure><img src="https://img.freepik.com/fotos-gratis/uma-linda-garota-negra-esta-envolvida-em-um-ginasio_1157-23736.jpg" alt="Mulher treinando"></figure>
             <!-- Detalhes do perfil podem ser adicionados aqui -->
         </section>
 
         <!-- Área de Interação -->
         <section id="area-interacao" class="section">
-            <h2>Área de Interação</h2>
+            <h2><a href="interacao.html" style="color: black; text-decoration: none;">Área de Interação</a></h2>
             <p>Interaja com outros membros da comunidade.</p>
-            <figure><img src="https://img.freepik.com/fotos-premium/grupo-de-pessoas-conversando-e-rindo-juntos-depois-de-um-treino-na-academia-fitness-e-conceito-de-estilo-de-vida-saudavel_38052-418.jpg" alt="Pessoas conversando" srcset=""></figure>
+            <figure><img src="https://img.freepik.com/fotos-premium/grupo-de-pessoas-conversando-e-rindo-juntos-depois-de-um-treino-na-academia-fitness-e-conceito-de-estilo-de-vida-saudavel_38052-418.jpg" alt="Pessoas conversando"></figure>
             <!-- Feed da comunidade pode ser adicionado aqui -->
         </section>
 
         <!-- Seção Volume de Treino -->
         <section id="volume-treino" class="section">
-            <h2>Volume de Treino</h2>
+            <h2><a href="volume.html" style="color: black; text-decoration: none;">Volume de Treino</a></h2>
             <p>Acompanhe seu progresso ao longo do tempo.</p>
-            <figure><img src="https://labvital.com.br/wp-content/uploads/2020/01/jovens-esportes-treinando-em-uma-academia-de-manha_1157-28954.jpg" alt="PEssoa calculando o volume de treino de outra pessoa" srcset=""></figure>
+            <figure><img src="https://labvital.com.br/wp-content/uploads/2020/01/jovens-esportes-treinando-em-uma-academia-de-manha_1157-28954.jpg" alt="PEssoa calculando o volume de treino de outra pessoa"></figure>
             <!-- Gráficos e comparações podem ser adicionados aqui -->
         </section>
 
         <!-- Seção Treinar -->
         <section id="treinar" class="section">
-            <h2>Treinar</h2>
+            <h2><a href="treinar.html" style="color: black; text-decoration: none;">Treinar</a></h2>
             <p>Comece seu treino agora!</br>Veja a diferença!</p>
-            <figure><img src="https://musculacaoonline.com.br/wp-content/uploads/2018/06/Treino-full-body-3x-hipertrofia-masculino-n%C3%ADvel-intermedi%C3%A1rio-e1529956753142.png" alt="Homem treinando" srcset=""></figure>
+            <figure><img src="https://musculacaoonline.com.br/wp-content/uploads/2018/06/Treino-full-body-3x-hipertrofia-masculino-n%C3%ADvel-intermedi%C3%A1rio-e1529956753142.png" alt="Homem treinando"></figure>
             <!-- Interface de treino pode ser adicionada aqui -->
         </section>
     </div>
@@ -83,7 +202,6 @@
         </div>
     </footer>
 
-    <script src="../static/script.js"></script>
 </body>
 
 </html>

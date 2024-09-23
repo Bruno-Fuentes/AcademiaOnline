@@ -20,10 +20,11 @@ from app.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index.html', IndexView.as_view(), name='index'),
-    path('login.html', LoginView.as_view(), name='login'),
+    path('', IndexView.as_view(), name='index'),
+    path('login/', LoginView.as_view(), name='login'),
     path('perfil.html', PerfilView.as_view(), name='perfil'),
     path('treinosprontos.html', TreinosProntosView.as_view(), name='treinosprontos'),
-    path('treinar.html', TreinarView.as_view(), name='treinar'),
-    path('interacao.html', interacaoView.as_view(), name='interacao'),
+    path('treinar/', TreinarView.as_view(), name='treinar'),
+    path('interacao/', InteracaoView.as_view(), name='interacao'),
+    path('volume/', VolumeView.as_view(), name='volume'),
 ]
