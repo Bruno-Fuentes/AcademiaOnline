@@ -19,7 +19,7 @@ from django.urls import path
 from app.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
     path('', IndexView.as_view(), name='index'),
     path('login/', LoginView.as_view(), name='login'),
     path('perfil.html', PerfilView.as_view(), name='perfil'),
@@ -27,4 +27,6 @@ urlpatterns = [
     path('treinar/', TreinarView.as_view(), name='treinar'),
     path('interacao/', InteracaoView.as_view(), name='interacao'),
     path('volume/', VolumeView.as_view(), name='volume'),
+    path('logout/', LogoutView.as_view(), name='logout'), 
+   
 ]
