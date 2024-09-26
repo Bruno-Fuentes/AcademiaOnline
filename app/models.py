@@ -39,28 +39,32 @@ class Equipamento(models.Model):
         verbose_name = "Equipamento"
         verbose_name_plural = "Equipamentos"
 
+class FichaTreino(models.Model):
+    nome_ficha_treino = models.CharField(max_length=45, verbose_name="Nome da Ficha de Treino")
+ 
+
+    def __str__(self):
+        return f"{self.nome_ficha_treino}"
+    class Meta:
+        verbose_name = "Ficha de Treino"
+        verbose_name_plural = "Fichas de Treino"
+
 class Exercicio(models.Model):
+    nome_exercicio = models.CharField(max_length=45, verbose_name="Nome do exercicio")
     equipamento = models.ForeignKey(Equipamento, on_delete=models.CASCADE, verbose_name="Equipamento")
     repeticoes = models.IntegerField(verbose_name="Repeticoes")
     peso_exercicio = models.FloatField(verbose_name="Peso do Exercicio")
     series = models.IntegerField(verbose_name="Series")
     descanso = models.IntegerField(verbose_name="Descanso")
+    ficha = models.ForeignKey(FichaTreino, on_delete=models.CASCADE, verbose_name="Ficha Treino")
 
     def __str__(self):
-        return f"{self.equipamento}, {self.repeticoes}, {self.peso_exercicio}, {self.series}, {self.descanso}"
+        return f"{self.nome_exercicio}, {self.equipamento}, {self.repeticoes}, {self.peso_exercicio}, {self.series}, {self.descanso}"
     class Meta:
         verbose_name = "Exercicio"
         verbose_name_plural = "Exercicios"
 
-class FichaTreino(models.Model):
-    nome_ficha_treino = models.CharField(max_length=45, verbose_name="Nome da Ficha de Treino")
-    exercicio = models.ForeignKey(Exercicio, on_delete=models.CASCADE, verbose_name="Exercicio")
 
-    def __str__(self):
-        return f"{self.nome_treino}, {self.exercicio}"
-    class Meta:
-        verbose_name = "Ficha de Treino"
-        verbose_name_plural = "Fichas de Treino"
 
 class Treino(models.Model):
     nome_treino = models.ForeignKey(FichaTreino, on_delete=models.CASCADE, verbose_name="Nome do Treino")
