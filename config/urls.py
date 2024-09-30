@@ -28,5 +28,5 @@ urlpatterns = [
     path('interacao/', InteracaoView.as_view(), name='interacao'),
     path('volume/', VolumeView.as_view(), name='volume'),
     path('logout/', LogoutView.as_view(), name='logout'), 
-   
+    path('cadastro.html', CadastroView.as_view(), name='cadastro'),
 ]

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+<body>
+    <h2>Cadastro</h2>
+    <form method="POST" action="{% url 'cadastro' %}">
+        {% csrf_token %}
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+    
+        <label for="sobrenome">Sobrenome:</label>
+        <input type="text" id="sobrenome" name="sobrenome" required>
+    
+        <label for="data_nasc">Data de Nascimento:</label>
+        <input type="date" id="data_nasc" name="data_nasc" required>
+    
+        <label for="sexo">Sexo:</label>
+        <select id="sexo" name="sexo" required>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+            <option value="feminino">Prefiro não dizer</option>
+        </select>
+    
+        <label for="peso">Peso (kg):</label>
+        <input type="number" id="peso" name="peso" step="0.1" required>
+    
+        <label for="altura">Altura (cm):</label>
+        <input type="number" id="altura" name="altura" step="0.01" required>
+    
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+    
+        <label for="senha_confirmacao">Confirme sua Senha:</label>
+        <input type="password" id="senha_confirmacao" name="senha_confirmacao" required>
+    
+        <label for="imagem_perfil">Link da Imagem de Perfil:</label>
+        <input type="url" id="imagem_perfil" name="imagem_perfil">
+    
+        <button type="submit">Cadastrar</button>
+    </form>
+</body>
+</html>

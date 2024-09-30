@@ -128,7 +128,6 @@ h1 a:hover {
 </head>
 
 <body>
-    <!-- Cabeçalho e Barra de Navegação -->
     <header>
         <div class="logo">
             <h1><a href="/" >Academia Online</a></h1>
@@ -143,8 +142,19 @@ h1 a:hover {
             </ul>
         </nav>
     </header>
-
-    <!-- Rodapé -->
+    <div>
+        <div>
+            <h1>Perfil de {{ nome }}</h1>
+            <p><strong>Nome:</strong> {{ nome }}</p>
+            <p><strong>Sobrenome:</strong> {{ sobrenome }}</p>
+            <p><strong>Email:</strong> {{ email }}</p>
+            <p><strong>Data de Nascimento:</strong> {{ data_nasc }}</p>
+            <p><strong>Sexo:</strong> {{ sexo }}</p>
+            <p><strong>Peso:</strong> {{ peso }} kg</p>
+            <p><strong>Altura:</strong> {{ altura }} m</p>
+            <p><strong>Imagem de Perfil:</strong> <img src="{{ imagem_perfil }}" alt="Imagem de perfil"></p>
+        </div>
+    </div>
     <footer>
         <p>&copy; 2024 Academia Online. Todos os direitos reservados.</p>
         <div class="social-links">
