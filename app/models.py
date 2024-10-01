@@ -19,17 +19,6 @@ class Usuario(models.Model):
         verbose_name = "Usuario"
         verbose_name_plural = "Usuarios"
 
-class Interacao(models.Model):
-    nome_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Nome do Usuario")
-    texto = models.CharField(max_length=500, verbose_name="Texto")
-    data_comentario = models.DateField(verbose_name="Data do Comentario")
-
-    def __str__(self):
-        return f"{self.nome_usuario}, {self.texto}, {self.data_comentario}"
-    class Meta:
-        verbose_name = "Interacao"
-        verbose_name_plural = "Interacoes"
-
 class Equipamento(models.Model):
     nome_equipamento = models.CharField(max_length=45, verbose_name="Nome do Equipamento")
     peso_equipamento = models.FloatField(verbose_name="Peso do Equipamento")
@@ -41,7 +30,7 @@ class Equipamento(models.Model):
         verbose_name_plural = "Equipamentos"
 
 class FichaTreino(models.Model):
-    nome_ficha_treino = models.CharField(max_length=45, verbose_name="Nome da Ficha de Treino")
+    nome_ficha_treino = models.CharField(max_length=100, verbose_name="Nome da Ficha de Treino")
  
 
     def __str__(self):
@@ -65,7 +54,19 @@ class Exercicio(models.Model):
         verbose_name = "Exercicio"
         verbose_name_plural = "Exercicios"
 
+class Interacao(models.Model):  
+    nome_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Nome do Usuario")
+    texto = models.CharField(max_length=500, verbose_name="Texto")
+    data_comentario = models.DateField(auto_now_add=True, verbose_name="Data do Comentario")
+    ficha_treino = models.ForeignKey(FichaTreino, on_delete=models.CASCADE, verbose_name="Ficha de Treino")
+    nota = models.IntegerField(verbose_name="Nota", default=0)
 
+    def __str__(self):
+        return f"{self.nome_usuario}, {self.texto}, {self.data_comentario}, {self.ficha_treino}, {self.nota}"
+    
+    class Meta:
+        verbose_name = "Interacao"
+        verbose_name_plural = "Interacoes"
 
 class Treino(models.Model):
     nome_treino = models.ForeignKey(FichaTreino, on_delete=models.CASCADE, verbose_name="Nome do Treino")

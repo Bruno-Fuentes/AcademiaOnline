@@ -8,6 +8,9 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib.auth import logout
 from .models import Usuario
+from .models import Interacao
+from .forms import InteracaoForm
+from django.http import HttpResponseForbidden
 
 
 class IndexView(LoginRequiredMixin,View):
@@ -126,7 +129,8 @@ class PerfilView(LoginRequiredMixin,View):
 
 class TreinosProntosView(View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'treinosprontos.html')
+        fichas = FichaTreino.objects.prefetch_related('exercicio_set').all()
+        return render(request, 'treinosprontos.html', {'fichas': fichas})
     def post(self, request):
         pass
 
@@ -136,11 +140,51 @@ class TreinarView(View):
     def post(self, request):
         pass
 
-class InteracaoView(View):
+class InteracaoView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'interacao.html')
-    def post(self, request):
-        pass
+        interacoes = Interacao.objects.all().order_by('-data_comentario')
+        form = InteracaoForm()
+        lista = [1,2,3,4,5]
+        return render(request, 'interacao.html', {'interacoes': interacoes, 'lista': lista, 'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = InteracaoForm(request.POST)
+        if form.is_valid():
+            interacao = form.save(commit=False)
+            interacao.nome_usuario = Usuario.objects.get(email=request.user.email)
+            interacao.save()
+            form.save()
+            lista = [1,2,3,4,5]
+            return redirect('interacao')
+        interacoes = Interacao.objects.all().order_by('-data_comentario')
+        return render(request, 'interacao.html', {'interacoes': interacoes, 'lista': lista, 'form': form})
+    
+class EditarInteracaoView(LoginRequiredMixin, View):
+    model = Interacao
+    fields = ['texto', 'nota']
+
+    def dispatch(self, request, *args, **kwargs):
+        interacao = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request, pk):
+        interacao = get_object_or_404(Interacao, pk=pk)
+        form = InteracaoForm(instance=interacao)
+        return render(request, 'editar_interacao.html', {'form': form, 'interacao': interacao})
+
+    def post(self, request, pk):
+        interacao = get_object_or_404(Interacao, pk=pk)
+        form = InteracaoForm(request.POST, instance=interacao)
+        if form.is_valid():
+            form.save()
+            return redirect('interacao')
+        return render(request, 'editar_interacao.html', {'form': form, 'interacao': interacao})
+
+class ExcluirInteracaoView(LoginRequiredMixin, View):
+    def post(self, pk):
+        interacao = Interacao.objects.get(pk=pk)
+        interacao.delete()
+        return redirect('interacao')
 
 class VolumeView(View):
     def get(self, request, *args, **kwargs):
