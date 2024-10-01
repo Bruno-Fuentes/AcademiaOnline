@@ -12,6 +12,7 @@ class Usuario(models.Model):
     senha = models.CharField(max_length=45, verbose_name="Senha")
     imagem_perfil = models.CharField(max_length=1000, verbose_name="Link da Imagem")
 
+
     def __str__(self):
         return f"{self.nome}, {self.sobrenome}, {self.data_nasc}, {self.sexo}, {self.peso}, {self.altura}, {self.email}, {self.senha}, {self.imagem_perfil}"
     class Meta:

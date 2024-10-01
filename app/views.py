@@ -23,7 +23,6 @@ class LoginView(View):
     def post(self, request, *args, **kwargs):
         email = request.POST.get('email')
         password = request.POST.get('senha')
-
         try:
             user = User.objects.get(email=email)
             user = authenticate(request, username=user.username, password=password)
@@ -81,24 +80,47 @@ class CadastroView(View):
             first_name=nome,
             last_name=sobrenome
         )
-        
+        usuario = Usuario.objects.create(
+            nome=nome,
+            sobrenome=sobrenome,
+            data_nasc=data_nasc,
+            sexo=sexo,
+            peso=peso,
+            altura=altura,
+            email=email,
+            senha=senha, 
+            imagem_perfil=imagem_perfil
+        )
+
         login(request, user)
 
         return redirect(reverse('index'))
     
 class PerfilView(LoginRequiredMixin,View):
     def get(self, request, *args, **kwargs):
-        usuario = get_object_or_404(Usuario, email=request.user.email)
-        return render(request, 'perfil.html', {
-            'nome': usuario.nome,
-            'sobrenome': usuario.sobrenome,
-            'email': usuario.email,
-            'data_nasc': usuario.data_nasc,
-            'sexo': usuario.sexo,
-            'peso': usuario.peso,
-            'altura': usuario.altura,
-            'imagem_perfil': usuario.imagem_perfil,
-        })
+        
+        usuario_logado = None
+        for usuario in Usuario.objects.all():
+            if usuario.email == request.user.username:
+                usuario_logado = usuario
+                break  
+
+        if usuario_logado:  
+            return render(request, 'perfil.html', {
+                'nome': usuario_logado.nome,
+                'sobrenome': usuario_logado.sobrenome,
+                'email': usuario_logado.email,
+                'senha': usuario_logado.senha,  
+                'data_nasc': usuario_logado.data_nasc,
+                'sexo': usuario_logado.sexo,
+                'peso': usuario_logado.peso,
+                'altura': usuario_logado.altura,
+                'imagem_perfil': usuario_logado.imagem_perfil,
+            })
+        else:
+            return render(request, 'perfil.html', {
+                'error': 'Perfil não encontrado.'
+            })
     def post(self, request):
         pass
 
