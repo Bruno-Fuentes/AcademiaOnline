@@ -4,146 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css">
     <title>Academia Online</title>
-    <style>
-        /* Estilos básicos e layout */
-        /* Estilos básicos e layout */
-        body {
-            font-family: Arial, sans-serif;
-            margin: auto;
-            padding: 0;
-            background-color: #f4f4f4;
-            position: relative;
-            min-height: 100vh;
-        }
-
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo h1 {
-            margin: 0;
-        }
-
-        nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-
-        nav ul li {
-            margin: 0 10px;
-        }
-
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            padding: 8px 16px;
-            transition: background-color 0.3s;
-        }
-
-        nav ul li a:hover {
-            background-color: #555;
-        }
-
-        .btn-treinar {
-            background-color: #28a745;
-            border-radius: 5px;
-        }
-
-        .btn-treinar:hover {
-            background-color: #218838;
-        }
-
-
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            margin-top: 20px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 75px;
-        }
-
-        .social-links a {
-            color: #fff;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-
-
-        h1 a {
-            color: white !important;
-            text-decoration: none !important;
-        }
-
-        h1 a:hover {
-            color: white;
-            text-decoration: none;
-        }
-
-        table.fichatreino {
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        table.fichatreino th {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            text-align: left;
-            font-size: 18px;
-        }
-
-        table.fichatreino td {
-            display: block;
-            padding: 8px;
-            border: 1px solid #ddd;
-            text-align: left;
-            font-size: 16px;
-        }
-
-        table.fichatreino tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        table.fichatreino td {
-            padding: 12px;
-        }
-
-        .container{
-            display: flex;
-            justify-content: space-evenly;
-        }
-    </style>
 </head>
 
 <body>
-    <!-- Cabeçalho e Barra de Navegação -->
     <header>
         <div class="logo">
-            <h1><a href="/">Academia Online</a></h1>
+            <h1><a href="{% url 'index' %}">Academia Online</a></h1>
         </div>
         <nav>
             <ul>
-                <li><a href="perfil.html">Perfil</a></li>
-                <li><a href="treinosprontos.html">Treinos Prontos</a></li>
-                <li><a href="interacao.html">Área de Interação</a></li>
-                <li><a href="volume.html">Volume de Treino</a></li>
-                <li><a href="treinar.html" class="btn-treinar">Treinar</a></li>
-                <li><a href="{% url 'logout' %}" class="btn-logout">Logout</a></li>
-                {% if user.is_superuser %}
-                <li><a href="{% url 'admin:index' %}" class="btn-admin">Admin Dashboard</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'perfil' %}">Perfil</a></li>
+                    <li><a href="{% url 'treinosprontos' %}">Treinos Prontos</a></li>
+                    <li><a href="{% url 'interacao' %}">Área de Interação</a></li>
+                    <li><a href="{% url 'exibirtreino' %}">Histórico</a></li>
+                    <li><a href="{% url 'treinar' %}" class="btn-treinar">Treinar</a></li>
+                    <li><a href="{% url 'logout' %}" class="btn-logout">Logout</a></li>
+                    {% if user.is_superuser %}
+                        <li><a href="{% url 'admin:index' %}" class="btn-admin">Admin Dashboard</a></li>
+                    {% endif %}
+                {% else %}
+                    <li><a href="{% url 'login' %}">Perfil</a></li>
+                    <li><a href="{% url 'treinosprontos' %}">Treinos Prontos</a></li>
+                    <li><a href="{% url 'interacao' %}">Área de Interação</a></li>
+                    <li><a href="{% url 'login' %}">Histórico</a></li>
+                    <li><a href="{% url 'login' %}" class="btn-treinar">Treinar</a></li>
+                    <li><a href="{% url 'login' %}" class="btn-login">Login</a></li>
                 {% endif %}
             </ul>
         </nav>

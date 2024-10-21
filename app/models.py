@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 class Usuario(models.Model):
@@ -79,3 +81,22 @@ class Treino(models.Model):
     class Meta:
         verbose_name = "Treino"
         verbose_name_plural = "Treinos"
+
+class UsuarioTreino(models.Model):
+    treino = models.ForeignKey(Treino, on_delete=models.CASCADE, related_name='exercicios_realizados')  
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)  
+    nome_treino = models.CharField(max_length=255)
+    data_treino = models.DateTimeField(default=timezone.now)
+    nome_exercicio = models.CharField(max_length=255)
+    peso_exercicio = models.FloatField(null=True, blank=True)
+    repeticoes = models.IntegerField(null=True, blank=True)
+    series = models.IntegerField(null=True, blank=True)
+    descanso = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.usuario} - {self.nome_treino} - {self.nome_exercicio} - {self.data_treino}"
+
+    class Meta:
+        verbose_name = "Treino do Usuário"
+        verbose_name_plural = "Treinos dos Usuários"
+

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/styles.css">
-    <title>Perfil</title>
+    <title>Exibir Treino</title>
 </head>
 <body>
     <header>
@@ -26,21 +25,35 @@
             </ul>
         </nav>
     </header>
-    <div>
-        <div>
-            <h1>Perfil de {{ nome }}</h1>
-            <p><strong>Nome:</strong> {{ nome }}</p>
-            <p><strong>Sobrenome:</strong> {{ sobrenome }}</p>
-            <p><strong>Email:</strong> {{ email }}</p>
-            <p><strong>Senha:</strong> {{ senha }}</p>
-            <p><strong>Data de Nascimento:</strong> {{ data_nasc }}</p>
-            <p><strong>Sexo:</strong> {{ sexo }}</p>
-            <p><strong>Peso:</strong> {{ peso }} kg</p>
-            <p><strong>Altura:</strong> {{ altura }} cm</p>
-            <p><strong>Imagem de Perfil:</strong> <img src="{{ imagem_perfil }}" alt="Imagem de perfil"></p>
-        </div>
-    </div>
-    <footer>
+    <h1>Treinos Realizados por {{ nome }}</h1>
+
+{% for treino in treinos %}
+    <h2>{{ treino.nome_treino.nome_ficha_treino }} - Data: {{ treino.data_treino }} - Duração: {{ treino.duracao }} minutos</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Exercício</th>
+                <th>Peso (kg)</th>
+                <th>Repetições</th>
+                <th>Séries</th>
+                <th>Descanso (segundos)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exercicio in treino.exercicios_realizados.all %}
+                <tr>
+                    <td>{{ exercicio.nome_exercicio }}</td>
+                    <td>{{ exercicio.peso_exercicio }}</td>
+                    <td>{{ exercicio.repeticoes }}</td>
+                    <td>{{ exercicio.series }}</td>
+                    <td>{{ exercicio.descanso }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endfor %}
+    <footer style="position: relative;">
         <p>&copy; 2024 Academia Online. Todos os direitos reservados.</p>
         <div class="social-links">
             <a href="#">Facebook</a>
@@ -48,7 +61,5 @@
             <a href="#">GitHub</a>
         </div>
     </footer>
-
 </body>
-
 </html>

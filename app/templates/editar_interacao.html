@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles.css">
-    <title>Perfil</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <title>Academia Online</title>
 </head>
+
 <body>
     <header>
         <div class="logo">
@@ -26,26 +27,18 @@
             </ul>
         </nav>
     </header>
-    <div>
-        <div>
-            <h1>Perfil de {{ nome }}</h1>
-            <p><strong>Nome:</strong> {{ nome }}</p>
-            <p><strong>Sobrenome:</strong> {{ sobrenome }}</p>
-            <p><strong>Email:</strong> {{ email }}</p>
-            <p><strong>Senha:</strong> {{ senha }}</p>
-            <p><strong>Data de Nascimento:</strong> {{ data_nasc }}</p>
-            <p><strong>Sexo:</strong> {{ sexo }}</p>
-            <p><strong>Peso:</strong> {{ peso }} kg</p>
-            <p><strong>Altura:</strong> {{ altura }} cm</p>
-            <p><strong>Imagem de Perfil:</strong> <img src="{{ imagem_perfil }}" alt="Imagem de perfil"></p>
-        </div>
-    </div>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button>
+    </form>
+
     <footer>
         <p>&copy; 2024 Academia Online. Todos os direitos reservados.</p>
         <div class="social-links">
             <a href="#">Facebook</a>
             <a href="#">Instagram</a>
-            <a href="#">GitHub</a>
+            <a href="#">Twitter</a>
         </div>
     </footer>
 

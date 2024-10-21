@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css">
+    <title>Treinar</title>
+    <script>
+        function carregarExercicios() {
+            const fichaId = document.getElementById("ficha_treino").value;
+            const url = `/get_exercicios/${fichaId}/`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const exerciciosDiv = document.getElementById("exercicios");
+                    exerciciosDiv.innerHTML = "";
+
+                    data.exercicios.forEach(exercicio => {
+                        exerciciosDiv.innerHTML += `
+        <tr>
+            <td>${exercicio.nome_exercicio}</td>
+            <td><input type="number" name="peso_${exercicio.id}" id="peso_${exercicio.id}"></td>
+            <td><input type="number" name="repeticoes_${exercicio.id}" id="repeticoes_${exercicio.id}"></td>
+            <td><input type="number" name="series_${exercicio.id}" id="series_${exercicio.id}"></td>
+            <td><input type="number" name="descanso_${exercicio.id}" id="descanso_${exercicio.id}"></td>
+        </tr>
+    `;
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar exercícios:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById("ficha_treino").addEventListener('change', carregarExercicios);
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1><a href="/" >Academia Online</a></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="perfil.html">Perfil</a></li>
+                <li><a href="treinosprontos.html">Treinos Prontos</a></li>
+                <li><a href="interacao.html">Área de Interação</a></li>
+                <li><a href="exibirtreino.html">Histórico</a></li>
+                <li><a href="treinar.html" class="btn-treinar">Treinar</a></li>
+                <li><a href="{% url 'logout' %}" class="btn-logout">Logout</a></li>
+                {% if user.is_superuser %}
+                <li><a href="{% url 'admin:index' %}" class="btn-admin">Admin Dashboard</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <h1>Registrar Novo Treino</h1>
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="ficha_treino">Escolha a ficha de treino:</label>
+        <select name="ficha_treino" id="ficha_treino" required>
+            {% for ficha in fichas %}
+            <option value="{{ ficha.id }}">{{ ficha.nome_ficha_treino }}</option>
+            {% endfor %}
+        </select>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Peso (kg)</th>
+                    <th>Repetições</th>
+                    <th>Séries</th>
+                    <th>Descanso (segundos)</th>
+                </tr>
+            </thead>
+            <tbody id="exercicios">
+            </tbody>
+        </table>
+
+        <div class="duracao">
+            <label for="duracao">Duração do treino (minutos):</label>
+            <input type="number" name="duracao" id="duracao" required min="1">
+        </div>
+
+        <button type="submit">Salvar Treino</button>
+    </form>
+</body>
+
+</html>

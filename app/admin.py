@@ -15,4 +15,5 @@ admin.site.register(Equipamento)
 admin.site.register(Exercicio)
 admin.site.register(FichaTreino, FichaTreinoAdmin)
 admin.site.register(Treino)
+admin.site.register(UsuarioTreino)
 

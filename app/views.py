@@ -10,10 +10,17 @@ from django.contrib.auth import logout
 from .models import Usuario
 from .models import Interacao
 from .forms import InteracaoForm
-from django.http import HttpResponseForbidden
+from .models import FichaTreino, Exercicio, Treino
+from .forms import EditarInteracaoForm
+from django.views.generic import UpdateView
+from django.urls import reverse_lazy
+from django.db import transaction
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+from django.http import JsonResponse
 
 
-class IndexView(LoginRequiredMixin,View):
+class IndexView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'index.html')
     def post(self, request):
@@ -100,6 +107,7 @@ class CadastroView(View):
         return redirect(reverse('index'))
     
 class PerfilView(LoginRequiredMixin,View):
+    template_name = 'perfil.html'
     def get(self, request, *args, **kwargs):
         
         usuario_logado = None
@@ -134,13 +142,7 @@ class TreinosProntosView(View):
     def post(self, request):
         pass
 
-class TreinarView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'treinar.html')
-    def post(self, request):
-        pass
-
-class InteracaoView(LoginRequiredMixin, View):
+class InteracaoView(View):
     def get(self, request, *args, **kwargs):
         interacoes = Interacao.objects.all().order_by('-data_comentario')
         form = InteracaoForm()
@@ -154,40 +156,115 @@ class InteracaoView(LoginRequiredMixin, View):
             interacao.nome_usuario = Usuario.objects.get(email=request.user.email)
             interacao.save()
             form.save()
-            lista = [1,2,3,4,5]
-            return redirect('interacao')
+            return redirect('interacao') 
         interacoes = Interacao.objects.all().order_by('-data_comentario')
+        lista = [1, 2, 3, 4, 5]
         return render(request, 'interacao.html', {'interacoes': interacoes, 'lista': lista, 'form': form})
-    
-class EditarInteracaoView(LoginRequiredMixin, View):
+
+class EditarInteracaoView(UpdateView):
     model = Interacao
-    fields = ['texto', 'nota']
+    form_class = EditarInteracaoForm
+    template_name = 'editar_interacao.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        interacao = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+    def get_success_url(self):
+        return reverse_lazy('interacao')
     
-    def get(self, request, pk):
-        interacao = get_object_or_404(Interacao, pk=pk)
-        form = InteracaoForm(instance=interacao)
-        return render(request, 'editar_interacao.html', {'form': form, 'interacao': interacao})
-
-    def post(self, request, pk):
-        interacao = get_object_or_404(Interacao, pk=pk)
-        form = InteracaoForm(request.POST, instance=interacao)
-        if form.is_valid():
-            form.save()
-            return redirect('interacao')
-        return render(request, 'editar_interacao.html', {'form': form, 'interacao': interacao})
+    def form_valid(self, form):
+        form.instance.ficha_treino = self.get_object().ficha_treino
+        return super().form_valid(form)
 
 class ExcluirInteracaoView(LoginRequiredMixin, View):
-    def post(self, pk):
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
         interacao = Interacao.objects.get(pk=pk)
         interacao.delete()
         return redirect('interacao')
-
-class VolumeView(View):
+    
+class TreinarView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'volume.html')
+        fichas = FichaTreino.objects.all()
+        exercicios = Exercicio.objects.all()
+        return render(request, 'treinar.html', {'fichas': fichas, 'exercicios': exercicios})
+
+    def post(self, request, *args, **kwargs):
+        ficha_id = request.POST.get('ficha_treino') 
+        ficha_treino = get_object_or_404(FichaTreino, id=ficha_id)
+        usuario = get_object_or_404(Usuario, email=request.user.email)
+
+        duracao = request.POST.get('duracao')
+        if not duracao:
+            messages.error(request, "Por favor, insira a duração do treino.")
+            return redirect('treinar')   
+
+        try:    
+            with transaction.atomic():
+                 treino_clonado = Treino.objects.create(
+                    nome_treino=ficha_treino,
+                    data_treino=timezone.now(),
+                    usuario=usuario,
+                    duracao=int(duracao)
+                )
+
+            for exercicio in Exercicio.objects.filter(ficha=ficha_treino):
+                    peso_exercicio = request.POST.get(f'peso_{exercicio.id}', exercicio.peso_exercicio)
+                    repeticoes = request.POST.get(f'repeticoes_{exercicio.id}', exercicio.repeticoes)
+                    series = request.POST.get(f'series_{exercicio.id}', exercicio.series)
+                    descanso = request.POST.get(f'descanso_{exercicio.id}', exercicio.descanso)
+
+                    UsuarioTreino.objects.create(
+                        usuario=usuario,
+                        treino=treino_clonado,
+                        nome_treino=ficha_treino.nome_ficha_treino,
+                        data_treino=timezone.now(),
+                        nome_exercicio=exercicio.nome_exercicio,
+                        peso_exercicio=float(peso_exercicio) if peso_exercicio else exercicio.peso_exercicio,
+                        repeticoes=int(repeticoes) if repeticoes else exercicio.repeticoes,
+                        series=int(series) if series else exercicio.series,
+                        descanso=int(descanso) if descanso else exercicio.descanso,
+                    )
+            messages.success(request, "Treino salvo com sucesso!")
+            return redirect('index')
+        
+        except Exception as e:
+            messages.error(request, f"Ocorreu um erro: {str(e)}")
+            return redirect('treinar')
+
+class GetExerciciosView(View):
+    def get(self, request, ficha_id, *args, **kwargs):
+        exercicios = Exercicio.objects.filter(ficha_id=ficha_id)
+        data = {
+            'exercicios': [
+                {
+                    'id': exercicio.id,
+                    'nome_exercicio': exercicio.nome_exercicio,
+                    'repeticoes': exercicio.repeticoes,
+                    'peso_exercicio': exercicio.peso_exercicio,
+                    'series': exercicio.series,
+                    'descanso': exercicio.descanso,
+                }
+                for exercicio in exercicios
+            ]
+        }
+        return JsonResponse(data)
+    
+class ExibirView(View):
+    def get(self, request, *args, **kwargs):
+        usuario_logado = None
+        for usuario in Usuario.objects.all():
+            if usuario.email == request.user.username:
+                usuario_logado = usuario
+                break  
+
+        if usuario_logado:  
+            usuario = Usuario.objects.get(email=request.user.email)
+            treinos = Treino.objects.filter(usuario=usuario)
+            return render(request, 'exibirtreino.html', {
+                'nome': usuario_logado.nome,
+                'treinos': treinos
+            })
+        else:
+            return render(request, 'exibirtreino.html', {
+                'error': 'Perfil não encontrado.'
+            })
     def post(self, request):
         pass
