@@ -32,4 +32,5 @@ urlpatterns = [
     path('exibirtreino.html', ExibirView.as_view(), name='exibirtreino'),
     path('logout/', LogoutView.as_view(), name='logout'), 
     path('cadastro.html', CadastroView.as_view(), name='cadastro'),
+    path('recuperar-senha/', PasswordResetView.as_view(), name='password_reset'),
 ]

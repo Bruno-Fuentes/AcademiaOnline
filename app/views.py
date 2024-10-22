@@ -18,6 +18,8 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 class IndexView(View):
@@ -48,6 +50,29 @@ class LoginView(View):
         else:
             messages.error(request, 'Email ou senha inválidos')
             return render(request, 'login.html')
+    
+class PasswordResetView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'password_reset_form.html')
+
+    def post(self, request, *args, **kwargs):
+        email = request.POST.get('email')
+        sobrenome = request.POST.get('sobrenome')
+        nova_senha = request.POST.get('nova_senha')
+
+        try:
+            user = User.objects.get(email=email)
+            if user.last_name == sobrenome:
+                user.set_password(nova_senha)
+                user.save()
+                messages.success(request, 'Senha redefinida com sucesso!')
+                return redirect('login') 
+            else:
+                messages.error(request, 'Sobrenome incorreto.')
+        except User.DoesNotExist:
+            messages.error(request, 'Usuário não encontrado.')
+
+        return render(request, 'password_reset_form.html')
 
 class LogoutView(View):
     def get(self, request):
