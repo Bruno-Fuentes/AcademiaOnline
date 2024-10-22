@@ -4,13 +4,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="static/styles.css">
+    <style>
+        .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    max-width: 500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="email"],
+.modal-content input[type="password"],
+.modal-content input[type="date"],
+.modal-content input[type="number"],
+.modal-content select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.toggle-password,
+.toggle-password2 {
+    position: relative;
+    left: -30px;
+    cursor: pointer;
+}
+
+#eye-icon {
+    font-size: 18px;
+    cursor: pointer;
+    color: #333;
+}
+
+
+    </style>
     <title>Perfil</title>
 </head>
+
 <body>
     <header>
         <div class="logo">
-            <h1><a href="/" >Academia Online</a></h1>
+            <h1><a href="/">Academia Online</a></h1>
         </div>
         <nav>
             <ul>
@@ -26,28 +101,122 @@
             </ul>
         </nav>
     </header>
-    <div>
-        <div>
-            <h1>Perfil de {{ nome }}</h1>
-            <p><strong>Nome:</strong> {{ nome }}</p>
-            <p><strong>Sobrenome:</strong> {{ sobrenome }}</p>
-            <p><strong>Email:</strong> {{ email }}</p>
-            <p><strong>Senha:</strong> {{ senha }}</p>
-            <p><strong>Data de Nascimento:</strong> {{ data_nasc }}</p>
-            <p><strong>Sexo:</strong> {{ sexo }}</p>
-            <p><strong>Peso:</strong> {{ peso }} kg</p>
-            <p><strong>Altura:</strong> {{ altura }} cm</p>
-            <p><strong>Imagem de Perfil:</strong> <img src="{{ imagem_perfil }}" alt="Imagem de perfil"></p>
+    <div class="container-perfil">
+        <div class="card">
+            <img src="{{ imagem_perfil }}" alt="Imagem de perfil" class="profile-img">
+            <div class="textos">
+                <p><strong>Nome:</strong> {{ nome }}</p>
+                <p><strong>Sobrenome:</strong> {{ sobrenome }}</p>
+                <p><strong>Email:</strong> {{ email }}</p>
+                <p><strong>Senha:</strong>
+                    <input type="password" id="senha" value="{{ senha }}" readonly>
+                    <span id="toggle-password" class="toggle-password">
+                        <i class="fas fa-eye" id="eye-icon" style="color: #201b2c;"></i>
+                    </span>
+                </p>
+                <p><strong>Data de Nascimento:</strong> {{ data_nasc }}</p>
+                <p><strong>Sexo:</strong> {{ sexo }}</p>
+                <p><strong>Peso:</strong> {{ peso }} kg</p>
+                <p><strong>Altura:</strong> {{ altura }} cm</p>
+            </div>
+            <button id="editar-btn">Editar Perfil</button>
         </div>
     </div>
-    <footer>
+    <div class="modal" id="modal-editar">
+        <div class="modal-content">
+            <span class="close-btn" id="close-modal">&times;</span>
+            <h2>Editar Perfil</h2>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label>Nome:</label>
+                <input type="text" name="nome" value="{{ nome }}" required>
+
+                <label>Sobrenome:</label>
+                <input type="text" name="sobrenome" value="{{ sobrenome }}" required>
+
+                <label>Email:</label>
+                <input type="email" name="email" value="{{ email }}" required>
+
+                <label>Senha:</label>
+                <input type="password" name="senha" value="{{ senha }}" id="senha2">
+                <span id="toggle-password2" class="toggle-password2">
+                    <i class="fas fa-eye" id="eye-icon" style="color: #201b2c;"></i>
+                </span>
+
+                <label>Data de Nascimento:</label>
+                <input type="date" name="data_nasc" value="{{ data_nasc }}" required>
+
+                <label>Sexo:</label>
+                <select name="sexo">
+                    <option value="Masculino" {% if sexo == "Masculino" %}selected{% endif %}>Masculino</option>
+                    <option value="Feminino" {% if sexo == "Feminino" %}selected{% endif %}>Feminino</option>
+                    <option value="Outro" {% if sexo == "Outro" %}selected{% endif %}>Outro</option>
+                </select>
+
+                <label>Peso (kg):</label>
+                <input type="number" name="peso" value="{{ peso }}" required>
+
+                <label>Altura (cm):</label>
+                <input type="number" name="altura" value="{{ altura }}" required>
+
+                <label>Imagem de Perfil:</label>
+                <input type="text" name="imagem_perfil" value="{{ imagem_perfil }}">
+
+                <button type="submit" id="editar-btn2">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+    <footer style="position: relative;">
         <p>&copy; 2024 Academia Online. Todos os direitos reservados.</p>
         <div class="social-links">
-            <a href="#">Facebook</a>
-            <a href="#">Instagram</a>
-            <a href="#">GitHub</a>
+            <a href="https://www.facebook.com/aluno.bruno.50/about">Facebook</a>
+            <a href="https://www.instagram.com/bruno_cfuentes/">Instagram</a>
+            <a href="https://github.com/Bruno-Fuentes/AcademiaOnline.git">GitHub</a>
         </div>
     </footer>
+    <script>
+        const togglePassword = document.querySelector('#toggle-password');
+        const passwordField = document.querySelector('#senha');
+        const eyeIcon = document.querySelector('#eye-icon');
+    
+        togglePassword.addEventListener('click', function () {  
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+    
+            eyeIcon.classList.toggle('fa-eye');
+            eyeIcon.classList.toggle('fa-eye-slash');
+        });
+
+        const togglePassword2 = document.querySelector('#toggle-password2');
+        const passwordField2 = document.querySelector('#senha2');
+    
+        togglePassword2.addEventListener('click', function () {  
+            const type = passwordField2.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField2.setAttribute('type', type);
+    
+            eyeIcon.classList.toggle('fa-eye');
+            eyeIcon.classList.toggle('fa-eye-slash');
+        });
+
+        const modal = document.getElementById('modal-editar');
+        const editarBtn = document.getElementById('editar-btn');
+        const closeModal = document.getElementById('close-modal');
+
+        editarBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
 
 </body>
 

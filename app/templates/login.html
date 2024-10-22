@@ -1,32 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/styles.css">
     <title>Login</title>
 </head>
+
 <body>
-    <header>
-        <div class="logo">
-            <h1><a href="/" >Academia Online</a></h1>
+    <main>
+        <header>
+            <div class="logo">
+                <h1><a href="/">Academia Online</a></h1>
+            </div>
+        </header>
+        <div class="login-container">
+            <div class="login-box">
+                <h2>Login</h2>
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <div>
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" id="email" placeholder="exemplo123@gmail.com" required>
+                    </div>
+                    <div>
+                        <label for="senha">Senha:</label>
+                        <input type="password" name="senha" id="senha" placeholder="*********" required>
+                    </div>
+                    <div>
+                        <button type="submit">Entrar</button>
+                    </div>
+                </form>
+                <button onclick="window.location.href='../cadastro.html';">Cadastro</button>
+            </div>
         </div>
-    </header>
-    <h2>Login</h2>
-    <form action="{% url 'login' %}" method="POST">
-        {% csrf_token %}
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" required>
+    </main>
+    <footer>
+        <p>&copy; 2024 Academia Online. Todos os direitos reservados.</p>
+        <div class="social-links">
+            <a href="https://www.facebook.com/aluno.bruno.50/about">Facebook</a>
+            <a href="https://www.instagram.com/bruno_cfuentes/">Instagram</a>
+            <a href="https://github.com/Bruno-Fuentes/AcademiaOnline.git">GitHub</a>
         </div>
-        <div>
-            <label for="senha">Senha:</label>
-            <input type="password" name="senha" id="senha" required>
-        </div>
-        <div>
-            <button type="submit">Entrar</button>
-        </div>
-    </form>
-    <button onclick="window.location.href='../cadastro.html';">Cadastro</button>
+    </footer>
 </body>
+
 </html>

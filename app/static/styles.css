@@ -1,11 +1,16 @@
+/* PADRAO */
 body {
     font-family: Arial, sans-serif;
     margin: auto;
     padding: 0;
     background-color: #f4f4f4;
     position: relative;
-    min-height: 100vh;
-    height: max-content;
+    min-height: 100%;
+}
+
+main{
+    height: 100%;
+    margin-bottom: 60px;
 }
 
 header {
@@ -89,7 +94,7 @@ footer{
     color: #fff;
     text-align: center;
     margin-top: 20px;
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 75px;
     bottom: 0;
@@ -116,6 +121,8 @@ h1 a:hover {
     color: white;
     text-decoration: none;
 }
+
+/* TABELA */
 
 table.fichatreino {
     border-collapse: collapse;
@@ -153,6 +160,8 @@ table.fichatreino td {
     justify-content: space-evenly;
 }
 
+
+/* STARS */
 .stars {
     color: gold;
 }
@@ -171,6 +180,8 @@ li em {
     margin-top: 20px;
 }
 
+
+/* MODAL */
 .modal {
     display: none;
     position: fixed;
@@ -215,3 +226,331 @@ ul.errorlist {
 .interacoes{
     margin-bottom: 10px;
 }
+
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+
+/* LOGIN */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+
+.login-box {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.login-box label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login-box input[type="email"], .login-box input[type="password"] {
+    width: 93%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.login-box input[type="submit"], .login-box button {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.login-box input[type="submit"]:hover, .login-box button:hover {
+    background-color: #444;
+}
+
+.login-box a {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+.login-box a:hover {
+    color: #000;
+}
+
+
+/* CADASTRO */
+.cadastro-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.cadastro-box {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 0px 40px 20px 40px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+
+.cadastro-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 48%;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.cadastro-form label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-top: 10px;
+}
+
+.cadastro-form input,
+.cadastro-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cadastro-box button {
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 94%;
+}
+
+.cadastro-box button:hover {
+    background-color: #444;
+}
+
+.cadastro-box .login-btn {
+    background-color: #555;
+    margin-top: 10px;
+}
+
+.cadastro-box .login-btn:hover {
+    background-color: #666;
+}
+
+.topo{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.fieldset-grande{
+    display: flex;
+    flex-direction: row;
+}
+
+.dentro{
+    border: 0;
+}
+
+.direita{
+    width: 300px;
+}
+
+/* PERFIL */
+.container-perfil {
+    width: 100%;
+    height: 80vh;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+}
+
+.card {
+    width: 540px;
+    background-color: #fff;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    height: 500px;
+}
+
+.profile-img {
+    width: 120px;
+    border-radius: 50%;
+    border: #34d256 5px solid;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transform: translateY(-65px);
+    align-self: center;
+}
+
+.container-perfil h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.container-perfil p {
+    font-size: 18px;
+    margin-bottom: 10px;
+    transform: translateY(-65px);
+    
+}
+
+.container-perfil p strong {
+    font-weight: bold;
+}
+
+.textos{
+    align-self: center;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+}
+
+.close-btn {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#editar-btn, #editar-btn2{
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 10px;
+    align-self: center;
+    width: 85%;
+}
+
+#editar-btn{
+    margin-top: -20px;
+}
+
+#editar-btn:hover, #editar-btn2:hover{
+    background-color: #444;
+}
+
+/* Treinos Prontos */
+.table-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    margin: 20px;
+}
+
+.fichatreino {
+    border-collapse: collapse;
+    width: 300px;
+    margin: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fichatreino thead th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.fichatreino tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.fichatreino tbody tr:last-child {
+    border-bottom: none;
+}
+
+.fichatreino tbody td {
+    padding: 12px;
+    text-align: left;
+    font-size: 1rem;
+    color: #333;
+}
+
+.fichatreino tbody tr:hover {
+    background-color: #f1f1f1;
+}
+

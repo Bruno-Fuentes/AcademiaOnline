@@ -5,6 +5,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/styles.css">
+    <style>
+        form {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1{
+            display: flex;
+            justify-content: center;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        select,
+        input[type="number"] {
+            width: 60%;
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th,
+        table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+
+        table input[type="number"] {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
     <title>Treinar</title>
     <script>
         function carregarExercicios() {
@@ -37,10 +103,11 @@
         });
     </script>
 </head>
+
 <body>
     <header>
         <div class="logo">
-            <h1><a href="/" >Academia Online</a></h1>
+            <h1><a href="/">Academia Online</a></h1>
         </div>
         <nav>
             <ul>
@@ -56,12 +123,13 @@
             </ul>
         </nav>
     </header>
-    <h1>Registrar Novo Treino</h1>
     <form method="POST">
+        <h1>Registrar Novo Treino</h1>
         {% csrf_token %}
 
         <label for="ficha_treino">Escolha a ficha de treino:</label>
         <select name="ficha_treino" id="ficha_treino" required>
+            <option value="----">----</option>
             {% for ficha in fichas %}
             <option value="{{ ficha.id }}">{{ ficha.nome_ficha_treino }}</option>
             {% endfor %}
@@ -88,6 +156,14 @@
 
         <button type="submit">Salvar Treino</button>
     </form>
+    <footer>
+        <p>&copy; 2024 Academia Online. Todos os direitos reservados.</p>
+        <div class="social-links">
+            <a href="https://www.facebook.com/aluno.bruno.50/about">Facebook</a>
+            <a href="https://www.instagram.com/bruno_cfuentes/">Instagram</a>
+            <a href="https://github.com/Bruno-Fuentes/AcademiaOnline.git">GitHub</a>
+        </div>
+    </footer>
 </body>
 
 </html>

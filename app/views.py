@@ -132,8 +132,44 @@ class PerfilView(LoginRequiredMixin,View):
             return render(request, 'perfil.html', {
                 'error': 'Perfil não encontrado.'
             })
-    def post(self, request):
-        pass
+        
+    def post(self, request, *args, **kwargs):
+        usuario_logado = self.get_usuario_logado(request)
+        email = request.POST.get('email')
+
+        if Usuario.objects.exclude(id=usuario_logado.id).filter(email=email).exists():
+            messages.error(request, 'Já existe um usuário com este email.')
+            return redirect('perfil')
+
+        usuario_logado.nome = request.POST.get('nome')
+        usuario_logado.sobrenome = request.POST.get('sobrenome')
+        usuario_logado.email = email
+        usuario_logado.senha = request.POST.get('senha')
+        usuario_logado.data_nasc = request.POST.get('data_nasc')
+        usuario_logado.sexo = request.POST.get('sexo')
+        usuario_logado.peso = request.POST.get('peso')
+        usuario_logado.altura = request.POST.get('altura')
+        usuario_logado.imagem_perfil = request.POST.get('imagem_perfil')
+
+        usuario_logado.save()
+        messages.success(request, 'Perfil atualizado com sucesso!')
+        return redirect('perfil')
+
+    def get_usuario_logado(self, request):
+        return Usuario.objects.filter(email=request.user.username).first()
+
+    def get_context(self, usuario):
+        return {
+            'nome': usuario.nome,
+            'sobrenome': usuario.sobrenome,
+            'email': usuario.email,
+            'senha': usuario.senha,
+            'data_nasc': usuario.data_nasc,
+            'sexo': usuario.sexo,
+            'peso': usuario.peso,
+            'altura': usuario.altura,
+            'imagem_perfil': usuario.imagem_perfil,
+        }
 
 class TreinosProntosView(View):
     def get(self, request, *args, **kwargs):
