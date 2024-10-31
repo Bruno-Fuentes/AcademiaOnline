@@ -270,7 +270,7 @@ ul.errorlist {
     font-weight: bold;
 }
 
-.login-box input[type="email"], .login-box input[type="password"] {
+.login-box input[type="email"], .login-box input[type="password"], .login-box input[type="text"] {
     width: 93%;
     padding: 10px;
     margin-bottom: 15px;
@@ -487,7 +487,7 @@ legend {
     cursor: pointer;
 }
 
-#editar-btn, #editar-btn2{
+#editar-btn, #editar-btn2, #deletar-btn{
     background-color: #333;
     color: #fff;
     border: none;
@@ -499,11 +499,11 @@ legend {
     width: 85%;
 }
 
-#editar-btn{
+#editar-btn, #deletar-btn{
     margin-top: -20px;
 }
 
-#editar-btn:hover, #editar-btn2:hover{
+#editar-btn:hover, #editar-btn2:hover, #deletar-btn:hover{
     background-color: #444;
 }
 

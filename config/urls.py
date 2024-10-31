@@ -23,6 +23,7 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('login.html', LoginView.as_view(), name='login'),
     path('perfil.html', PerfilView.as_view(), name='perfil'),
+    path('perfil/deletar/', DeletePerfilView.as_view(), name='deletar_perfil'),
     path('treinosprontos.html', TreinosProntosView.as_view(), name='treinosprontos'),
     path('treinar.html', TreinarView.as_view(), name='treinar'),
     path('get_exercicios/<int:ficha_id>/', GetExerciciosView.as_view(), name='get_exercicios'),

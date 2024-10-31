@@ -159,13 +159,17 @@ class PerfilView(LoginRequiredMixin,View):
             })
         
     def post(self, request, *args, **kwargs):
+        if 'delete' in kwargs:  # Processa exclusão do perfil
+            return self.delete(request)
+        
         usuario_logado = self.get_usuario_logado(request)
         email = request.POST.get('email')
-
+        
         if Usuario.objects.exclude(id=usuario_logado.id).filter(email=email).exists():
             messages.error(request, 'Já existe um usuário com este email.')
             return redirect('perfil')
 
+        # Atualiza dados do usuário
         usuario_logado.nome = request.POST.get('nome')
         usuario_logado.sobrenome = request.POST.get('sobrenome')
         usuario_logado.email = email
@@ -179,6 +183,16 @@ class PerfilView(LoginRequiredMixin,View):
         usuario_logado.save()
         messages.success(request, 'Perfil atualizado com sucesso!')
         return redirect('perfil')
+
+    def delete(self, request, *args, **kwargs):
+        usuario_logado = self.get_usuario_logado(request)
+        
+        if usuario_logado:
+            usuario_logado.delete()
+            logout(request)
+            return JsonResponse({'success': True}, status=200)
+        else:
+            return JsonResponse({'error': 'Usuário não encontrado.'}, status=400)
 
     def get_usuario_logado(self, request):
         return Usuario.objects.filter(email=request.user.username).first()
@@ -195,6 +209,18 @@ class PerfilView(LoginRequiredMixin,View):
             'altura': usuario.altura,
             'imagem_perfil': usuario.imagem_perfil,
         }
+
+class DeletePerfilView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        usuario_logado = Usuario.objects.filter(email=request.user.username).first()
+        
+        if usuario_logado:
+            usuario_logado.delete()
+            logout(request)
+            messages.success(request, 'Perfil excluído com sucesso!')
+            return JsonResponse({'success': True}, status=200)
+        else:
+            return JsonResponse({'error': 'Usuário não encontrado.'}, status=400)
 
 class TreinosProntosView(View):
     def get(self, request, *args, **kwargs):
